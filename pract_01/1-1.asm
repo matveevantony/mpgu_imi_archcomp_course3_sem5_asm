@@ -2,7 +2,7 @@
 .STACK 100h                 ; на выполнение программы выделяется 256 бит
 
 .DATA                       ; сегмент данных
-	MSG db 'Hello, World!$' ; db - define byte, dw - define word (2 byte), dd - double word (4 byte), dq - quad word (8 byte)
+    MSG db 'Hello, World!$' ; db - define byte, dw - define word (2 byte), dd - double word (4 byte), dq - quad word (8 byte)
 
 .CODE                       ; сегмент кода (все команды указываются в нём)
 begin:                      ; метка входа в программу

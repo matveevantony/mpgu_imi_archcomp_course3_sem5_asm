@@ -2,7 +2,7 @@
 .STACK 100h                 ; на выполнение программы выделяется 256 бит
 
 .DATA                       ; сегмент данных
-	MSG1 db 'Hello, world!$' ; первая строка
+    MSG1 db 'Hello, world!$'; первая строка
     MSG2 db 'How are you?$' ; вторая строка
     NXTLN db 10, 13, '$'    ; перенос строки
 
@@ -18,7 +18,7 @@ begin:                      ; метка входа в программу
     int 21h
     mov DX, offset NXTLN
     int 21h
-	mov DX, offset MSG2
+    mov DX, offset MSG2
     int 21h
 
     mov AX, 4C00h           ; выход из программы
