@@ -1,0 +1,144 @@
+Turbo Assembler	 Version 4.1	    11/22/22 13:13:20	    Page 1
+8-1.asm
+
+
+
+      1				     ; подключение файлов макросов
+      2				     include 8-1-nl.inc
+1     3				     nl	macro			 ; макрос	перевода строки
+1     4					     push AX
+1     5					     push DX
+1     6					     mov AH, 2
+1     7					     mov DL, 10
+1     8					     int 21h
+1     9					     mov DL, 13
+1    10					     int 21h
+1    11					     pop DX
+1    12					     pop AX
+1    13				     endm
+     14				     include 8-1-pstr.inc
+1    15				     prnstr macro string	 ; макрос	печати строки
+1    16					     push AX
+1    17					     push DX
+1    18					     mov AH, 9
+1    19					     mov DX, offset string
+1    20					     int 21h
+1    21					     pop DX
+1    22					     pop AX
+1    23				     endm
+     24
+     25	0000			     .MODEL SMALL			     ; код вмещается в один сегмент +
+     26				     памяти
+     27	0000			     .STACK 100h				     ; на выполнение программы +
+     28				     выделяется 256 бит
+     29
+     30	0000			     .DATA					     ; сегмент данных
+     31	0000  46 69 72 73 74 20	6C+	     Msg1 db 'First line$'
+     32	      69 6E 65 24
+     33	000B  53 65 63 6F 6E 64	20+	     Msg2 db 'Second line$'
+     34	      6C 69 6E 65 24
+     35	0017  54 68 69 72 64 20	6C+	     Msg3 db 'Third line$'
+     36	      69 6E 65 24
+     37
+     38	0022			     .CODE					     ; сегмент кода
+     39	0000			     begin:					     ; метка входа в	программу
+     40					     ; запись адреса сегмента данных
+     41	0000  B8 0000s			     mov AX, @DATA
+     42	0003  8E D8			     mov DS, AX
+     43
+     44					     ; вызов макросов
+     45					     prnstr Msg1
+1    46	0005  50			     push AX
+1    47	0006  52			     push DX
+1    48	0007  B4 09			     mov AH, 9
+1    49	0009  BA 0000r			     mov DX, offset Msg1
+1    50	000C  CD 21			     int 21h
+1    51	000E  5A			     pop DX
+1    52	000F  58			     pop AX
+     53					     nl
+1    54	0010  50			     push AX
+1    55	0011  52			     push DX
+1    56	0012  B4 02			     mov AH, 2
+1    57	0014  B2 0A			     mov DL, 10
+Turbo Assembler	 Version 4.1	    11/22/22 13:13:20	    Page 2
+8-1.asm
+
+
+
+1    58	0016  CD 21			     int 21h
+1    59	0018  B2 0D			     mov DL, 13
+1    60	001A  CD 21			     int 21h
+1    61	001C  5A			     pop DX
+1    62	001D  58			     pop AX
+     63					     prnstr Msg2
+1    64	001E  50			     push AX
+1    65	001F  52			     push DX
+1    66	0020  B4 09			     mov AH, 9
+1    67	0022  BA 000Br			     mov DX, offset Msg2
+1    68	0025  CD 21			     int 21h
+1    69	0027  5A			     pop DX
+1    70	0028  58			     pop AX
+     71					     nl
+1    72	0029  50			     push AX
+1    73	002A  52			     push DX
+1    74	002B  B4 02			     mov AH, 2
+1    75	002D  B2 0A			     mov DL, 10
+1    76	002F  CD 21			     int 21h
+1    77	0031  B2 0D			     mov DL, 13
+1    78	0033  CD 21			     int 21h
+1    79	0035  5A			     pop DX
+1    80	0036  58			     pop AX
+     81					     prnstr Msg3
+1    82	0037  50			     push AX
+1    83	0038  52			     push DX
+1    84	0039  B4 09			     mov AH, 9
+1    85	003B  BA 0017r			     mov DX, offset Msg3
+1    86	003E  CD 21			     int 21h
+1    87	0040  5A			     pop DX
+1    88	0041  58			     pop AX
+     89
+     90					     ; выход из программы
+     91	0042  B8 4C00			     mov AX, 4c00h
+     92	0045  CD 21			     int 21h
+     93				     END begin					     ; завершение программы
+Turbo Assembler	 Version 4.1	    11/22/22 13:13:20	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/22/22"
+??FILENAME			  Text	 "8-1	  "
+??TIME				  Text	 "13:13:20"
+??VERSION			  Number 040A
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 8-1
+@INTERFACE			  Text	 000H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+BEGIN				  Near	 _TEXT:0000
+MSG1				  Byte	 DGROUP:0000
+MSG2				  Byte	 DGROUP:000B
+MSG3				  Byte	 DGROUP:0017
+
+Macro Name
+
+NL
+PRNSTR
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0022 Word	  Public  DATA
+_TEXT				  16  0047 Word	  Public  CODE
+
